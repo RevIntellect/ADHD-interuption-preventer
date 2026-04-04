@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SpeakAware">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>SpeakAware</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ALERT OVERLAY - flashes red when speaking too long -->
+  <div id="alert-overlay" class="alert-overlay hidden">
+    <div class="alert-content">
+      <div class="alert-icon">&#9995;</div>
+      <div class="alert-text">PAUSE</div>
+      <div class="alert-subtext">Take a breath. Let others speak.</div>
+    </div>
+  </div>
+
+  <div id="app" class="app">
+    <!-- HEADER -->
+    <header class="header">
+      <h1 class="logo">Speak<span>Aware</span></h1>
+      <button id="settings-btn" class="icon-btn" aria-label="Settings">&#9881;</button>
+    </header>
+
+    <!-- HOME SCREEN -->
+    <main id="screen-home" class="screen active">
+      <!-- Status Ring -->
+      <div class="status-container">
+        <div id="status-ring" class="status-ring">
+          <svg viewBox="0 0 200 200" class="ring-svg">
+            <circle cx="100" cy="100" r="90" class="ring-bg" />
+            <circle id="ring-progress" cx="100" cy="100" r="90" class="ring-fill" />
+          </svg>
+          <div class="ring-inner">
+            <div id="status-icon" class="status-icon">&#127908;</div>
+            <div id="status-label" class="status-label">Ready</div>
+            <div id="timer-display" class="timer-display">00:00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Stats -->
+      <div id="live-stats" class="live-stats hidden">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-speaking">0%</div>
+          <div class="stat-label">Speaking</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-silent">0%</div>
+          <div class="stat-label">Listening</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-alerts">0</div>
+          <div class="stat-label">Alerts</div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button id="btn-start" class="btn btn-primary btn-large">
+          Start Meeting
+        </button>
+        <button id="btn-stop" class="btn btn-danger btn-large hidden">
+          End Meeting
+        </button>
+      </div>
+
+      <!-- Recent Sessions -->
+      <div id="history-section" class="history-section">
+        <h2 class="section-title">Recent Sessions</h2>
+        <div id="history-list" class="history-list">
+          <p class="empty-state">No sessions yet. Start your first meeting!</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- SETTINGS SCREEN -->
+    <div id="screen-settings" class="screen">
+      <div class="screen-header">
+        <button id="settings-back" class="icon-btn">&#8592;</button>
+        <h2>Settings</h2>
+      </div>
+      <div class="settings-list">
+        <div class="setting-item">
+          <label for="threshold-time">Alert after speaking for (seconds)</label>
+          <input type="range" id="threshold-time" min="5" max="60" value="15" step="5">
+          <span id="threshold-value" class="setting-value">15s</span>
+        </div>
+        <div class="setting-item">
+          <label for="cooldown-time">Cooldown between alerts (seconds)</label>
+          <input type="range" id="cooldown-time" min="5" max="60" value="10" step="5">
+          <span id="cooldown-value" class="setting-value">10s</span>
+        </div>
+        <div class="setting-item">
+          <label for="sensitivity">Microphone sensitivity</label>
+          <input type="range" id="sensitivity" min="1" max="10" value="5">
+          <span id="sensitivity-value" class="setting-value">5</span>
+        </div>
+        <div class="setting-item">
+          <label for="vibrate-toggle">Vibrate on alert</label>
+          <label class="toggle">
+            <input type="checkbox" id="vibrate-toggle" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label for="speaking-goal">Target speaking % (goal)</label>
+          <input type="range" id="speaking-goal" min="10" max="50" value="25" step="5">
+          <span id="goal-value" class="setting-value">25%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESSION SUMMARY SCREEN -->
+    <div id="screen-summary" class="screen">
+      <div class="screen-header">
+        <button id="summary-back" class="icon-btn">&#8592;</button>
+        <h2>Session Summary</h2>
+      </div>
+      <div id="summary-content" class="summary-content">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
